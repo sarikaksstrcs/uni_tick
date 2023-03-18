@@ -8,20 +8,11 @@
     <a
       class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        class="w-10 h-10 text-white p-2 bg-blue-500 rounded-full"
-        viewBox="0 0 24 24"
-      >
-        <path
-          d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-        ></path>
-      </svg>
+    <svg class="h-10 w-10 text-indigo-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="6" cy="17" r="2" />  <circle cx="18" cy="17" r="2" />
+      <path d="M4 17h-2v-11a1 1 0 0 1 1 -1h14a5 7 0 0 1 5 7v5h-2m-4 0h-8" />
+      <polyline points="16 5 17.5 12 22 12" />  <line x1="2" y1="10" x2="17" y2="10" />  <line x1="7" y1="5" x2="7" y2="10" />  <line x1="12" y1="5" x2="12" y2="10" />
+    </svg>
       <span class="ml-3 text-xl">Uni-Tick</span>
     </a>
   </div>
@@ -36,11 +27,11 @@
         >
           All Events
         </h1>
-        <div class="h-1 w-20 bg-blue-500 rounded"></div>
+        <div class="h-1 w-20 bg-indigo-500 rounded"></div>
       </div>
       <a
         href="{% url 'admin:create_event' %}"
-        class="inline-flex items-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-600 rounded text-white mt-4 md:mt-0"
+        class="inline-flex items-center bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded text-white mt-4 md:mt-0"
       >
         Create
         <svg
@@ -67,7 +58,7 @@
             alt="content"
           />
           <h3
-            class="tracking-widest text-blue-500 text-xs font-medium title-font"
+            class="tracking-widest text-indigo-500 text-xs font-medium title-font"
           >
             {{ event.location}}
           </h3>
@@ -78,7 +69,7 @@
           <div class="flex justify-end">
             <a
               href="{% url 'admin:event_details' event.id %}"
-              class="bg-blue-400 rounded p-2 text-white"
+              class="bg-indigo-500 rounded p-2 text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
