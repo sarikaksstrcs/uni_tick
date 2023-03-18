@@ -25,5 +25,3 @@ class CreateParkingTierForm(ModelForm):
             'capacity'
         ]
 
-class SearchForm(forms.Form):
-    query = forms.CharField(max_length=200)

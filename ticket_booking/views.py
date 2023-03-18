@@ -6,12 +6,18 @@ from django.db.models import Q
 
 def index(request):
     events = Event.objects.filter(booking_open =True)
+    
+    search_input = request.GET.get('search-area')
+    if search_input:
+        events = Event.objects.filter(Q(description__icontains=search_input))
+        return render(request, 'ticket_booking/index.html', {'events': events})
     return render(request, 'ticket_booking/index.html',{'events':events})
 
 def event_details(request, id):
     event = Event.objects.get(id=id)
     ticket_tiers = TicketTier.objects.filter(event=event, capacity__gt=0)
     parking_tiers = ParkingTicketTier.objects.filter(event=event)
+
     return render(request, 'ticket_booking/event_details.html', context={'event': event, 'ticket_tiers': ticket_tiers, 'parking_tiers': parking_tiers})
 
 
