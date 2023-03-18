@@ -28,7 +28,7 @@
       </h1>
     </div>
     <div class="lg:w-1/2 md:w-2/3 mx-auto">
-      <form method="post">
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %} {{ form|crispy }}
         <input
           type="submit"
