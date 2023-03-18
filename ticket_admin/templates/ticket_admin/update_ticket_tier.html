@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block head %}
+<title>Update_Ticket Tier</title>
+{% endblock head %} {% block body %}
+<h1>Update Ticket Tier</h1>
+<a href="{% url 'admin:events' %}">Back</a>
+<hr>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <input type="submit" value="Update" />
+</form>
+
+{% endblock body %}

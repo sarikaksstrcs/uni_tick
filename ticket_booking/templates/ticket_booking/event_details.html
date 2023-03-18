@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block head %}
+<title>Admin Home</title>
+{% endblock head %} {% block body %}
+<h1>{{ event.title }}</h1>
+<a href="{% url 'ticket_booking:home' %}">Back</a>
+<hr />
+<p>{{ event.decription }}</p>
+<ul>
+  <li>Date: {{ event.date }}</li>
+  <li>Location: {{ event.location }}</li>
+  <li>Total Tickets: {{ event.total_tickets }}</li>
+  <li>
+    Parking Status: {% if event.parking_available %}Yes{% else %}No{% endif %}
+  </li>
+  <li>Parking Capacity: {{ event.parking_max_capacity }}</li>
+  <li>
+    Booking Status: {% if event.booking_open %}Open{% else %}Closed{% endif %}
+  </li>
+</ul>
+
+<h1>Ticket Tiers</h1>
+<hr />
+<ul>
+  {% for ticket_tier in ticket_tiers %}
+  <li>
+    {{ ticket_tier.title }} - {{ ticket_tier.price}} - {{ ticket_tier.capacity}}
+
+  </li>
+  {% endfor %}
+</ul>
+
+<h1>Parking Tiers</h1>
+
+<hr />
+<ul>
+  {% for parking_tier in parking_tiers %}
+  <li>
+    {{ parking_tier.title }} -{{ parking_tier.capacity}}
+
+  </li>
+  {% endfor %}
+</ul>
+<hr>
+<a href="{% url 'ticket_booking:book_ticket' event.id %}">Book Now</a>
+
+{% endblock body %}
