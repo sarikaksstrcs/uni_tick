@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block head %}
+<title>Admin Home</title>
+{% endblock head %} {% block body %}
+<h1>{{ event.title }}</h1>
+<a href="{% url 'admin:events' %}">Back</a>
+<a href="{% url 'admin:update_event' event.id %}">Update</a>
+<a href="{% url 'admin:delete_event' event.id %}">Delete</a>
+<hr />
+<p>{{ event.decription }}</p>
+<ul>
+  <li>Date: {{ event.date }}</li>
+  <li>Location: {{ event.location }}</li>
+  <li>Total Tickets: {{ event.total_tickets }}</li>
+  <li>
+    Parking Status: {% if event.parking_available %}Yes{% else %}No{% endif %}
+  </li>
+  <li>Parking Capacity: {{ event.parking_max_capacity }}</li>
+  <li>
+    Booking Status: {% if event.booking_open %}Open{% else %}Closed{% endif %}
+  </li>
+</ul>
+<h1>Ticket Tiers</h1>
+<a href="{% url 'admin:create_ticket_tier' event.id %}">Create</a>
+<hr />
+<ul>
+  {% for ticket_tier in ticket_tiers %}
+  <li>
+    {{ ticket_tier.title }} - {{ ticket_tier.price}} - {{ ticket_tier.capacity}}
+    <a href="{% url 'admin:update_ticket_tier' ticket_tier.id %}">Update</a>
+    <a href="{% url 'admin:delete_ticket_tier' ticket_tier.id %}">Delete</a>
+
+  </li>
+  {% endfor %}
+</ul>
+
+<h1>Parking Tiers</h1>
+<a href="{% url 'admin:create_parking_tier' event.id %}">Create</a>
+<hr />
+<ul>
+  {% for parking_tier in parking_tiers %}
+  <li>
+    {{ parking_tier.title }} -{{ parking_tier.capacity}}
+
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock body %}
