@@ -56,10 +56,10 @@ def book_ticket(request, id):
 #QR CODE
 #########################################################################
 
-def send_email(request):
+def send_email(request,id):
     # Generate QR code image
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data('https://example.com')
+    qr.add_data(id)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     
@@ -72,8 +72,8 @@ def send_email(request):
     email = EmailMessage(
         'QR Code', 
         'Please scan the attached QR code.', 
-        'sender@example.com', 
-        ['sarika.ksstrcs@gmail.com']
+        'navnet.ml@example.com', 
+        ['sarika.ks.official@gmail.com']
     )
     email.attach('qr.png', image_data, 'image/png')
     email.send()
