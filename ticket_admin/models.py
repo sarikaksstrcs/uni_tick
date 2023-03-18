@@ -16,6 +16,7 @@ class Event(models.Model):
     parking_available = models.BooleanField(default=False)
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
+    image = models.ImageField(null=True,blank=True, upload_to="images/")
 
 class TouristSpot(models.Model):
     title = models.CharField(max_length=150)

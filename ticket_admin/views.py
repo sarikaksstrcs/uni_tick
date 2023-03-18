@@ -21,7 +21,7 @@ def event_details(request, id):
 def create_event(request):
     form = CreateEventForm()
     if request.POST:
-        form = CreateEventForm(request.POST)
+        form = CreateEventForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             return redirect('ticket_admin:events')
@@ -72,11 +72,21 @@ def delete_ticket_tier(request, id):
     ticket_tier.delete()
     return redirect('ticket_admin:event_details', id=id)
 
+#####################################################################################
+# TOURIST SPOTS
+#####################################################################################
 def tourist_spots(request):
     tourist_spots= TouristSpot.objects.all()
-    return render(request, 'ticket_admin/tourist_spots.html', context={'tourist_spots': tourist_spots})
+    return render(request, 'ticket_admin/tourist_spots.html', context={'tourist_spots': tourist_spots,})
 
-def create_tourism(request):
+def tourist_spots_details(request, id):
+    tourist_spots = TouristSpot.objects.get(id=id)
+    ticket_tiers = TicketTier.objects.filter(event=tourist_spots)
+    parking_tiers = ParkingTicketTier.objects.filter(event=tourist_spots)
+    return render(request, 'ticket_admin/tourist_spots_details.html', context={'tourist_spots': tourist_spots,'ticket_tiers': ticket_tiers, 'parking_tiers': parking_tiers})
+
+
+def create_tourist_spots(request):
     form = CreateTourismForm()
     if request.POST:
         form = CreateTourismForm(request.POST)
@@ -84,6 +94,10 @@ def create_tourism(request):
             form.save()
             return redirect('ticket_admin:tourist_spots')
     return render(request, 'ticket_admin/create_tourist_spots.html', context={'form': form})
+
+#####################################################################################
+# PARKING
+#####################################################################################
 
 
 def create_parking_tier(request, id):
@@ -97,15 +111,5 @@ def create_parking_tier(request, id):
             form.save()
             return redirect('ticket_admin:event_details', id=id)
     return render(request, 'ticket_admin/create_ticket_tier.html', context={'form': form, 'event': event})
-
-
-def create_tourism(request):
-    form = CreateTourismForm()
-    if request.POST:
-        form = CreateTourismForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('ticket_admin:events')
-    return render(request, 'ticket_admin/create_tourist_spot.html', context={'form': form})
 
 
