@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
-from ticket_admin.models import Event, TicketTier,ParkingTicketTier
+from ticket_admin.models import Event, TicketTier,ParkingTicketTier,Ticket
 from .forms import CreateTicketForm
 from django.db.models import Q
+import qrcode
+from io import BytesIO
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+
 # Create your views here.
 
 def index(request):
@@ -46,3 +51,31 @@ def book_ticket(request, id):
             form.save()
             return redirect('ticket_booking:home')
     return render(request, 'ticket_booking/book_ticket.html', context={'form': form, 'event': event})
+
+#########################################################################
+#QR CODE
+#########################################################################
+
+def send_email(request):
+    # Generate QR code image
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data('https://example.com')
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # Create in-memory buffer for image
+    buffer = BytesIO()
+    img.save(buffer, format='PNG')
+    image_data = buffer.getvalue()
+    
+    # Create email message with QR code image attachment
+    email = EmailMessage(
+        'QR Code', 
+        'Please scan the attached QR code.', 
+        'sender@example.com', 
+        ['sarika.ksstrcs@gmail.com']
+    )
+    email.attach('qr.png', image_data, 'image/png')
+    email.send()
+    
+    return HttpResponse('Email sent successfully.')

@@ -1,5 +1,10 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, RegexValidator
+from io import BytesIO
+from django.core.files import File
+from PIL import Image,ImageDraw
+import qrcode
+
 
 PARKING_CHOICES = (
     ('2 Wheeler', '2 Wheeler'),
@@ -17,6 +22,8 @@ class Event(models.Model):
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
     image = models.ImageField(null=True,blank=True, upload_to="images/")
+
+    
 
 class TouristSpot(models.Model):
     title = models.CharField(max_length=150)
@@ -44,7 +51,23 @@ class Ticket(models.Model):
     parking_needed = models.BooleanField(default=False)
     parking_tier = models.ForeignKey('ParkingTicketTier', on_delete=models.CASCADE, null=True, blank=True)
     is_inside = models.BooleanField(default=False)
-    
+    qr_code = models.ImageField(upload_to="qr_codes",null=True,blank=True)
+
+    def save(self,*args,**kwargs):
+        qrcode_img = qrcode.make(self.email)
+        canvas = Image.new('RGB',(360,360),'white')
+        draw = ImageDraw.Draw(canvas)
+
+        canvas.paste(qrcode_img)
+
+        fname = f'qr_code-{self.email}'+'.png'
+        buffer = BytesIO()
+
+        canvas.save(buffer,'PNG')
+        self.qr_code.save(fname,File(buffer),save=False)
+        canvas.close()
+
+        super().save(*args,**kwargs)
 
 
 class ParkingTicket(models.Model):
