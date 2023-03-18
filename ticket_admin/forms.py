@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Event, TicketTier,ParkingTicket,ParkingTicketTier
+from .models import Event, TicketTier,ParkingTicket,ParkingTicketTier,TouristSpot
 from django import forms
 
 class CreateEventForm(ModelForm):
@@ -24,5 +24,10 @@ class CreateParkingTierForm(ModelForm):
             'title',
             'capacity'
         ]
+
+class CreateTourismForm(ModelForm):
+    class Meta:
+        model = TouristSpot
+        fields = '__all__'
 
         

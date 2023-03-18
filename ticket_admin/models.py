@@ -17,7 +17,14 @@ class Event(models.Model):
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
 
-
+class TouristSpot(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    location = models.CharField(max_length=150)
+    parking_available = models.BooleanField(default=False)
+    parking_max_capacity = models.IntegerField(null=True, blank=True)
+    booking_open = models.BooleanField(default=True)
+    
 class TicketTier(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)

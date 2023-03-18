@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Event, TicketTier, ParkingTicketTier
-from .forms import CreateEventForm, CreateTicketTierForm,CreateParkingTierForm
+from .models import Event, TicketTier, ParkingTicketTier,TouristSpot
+from .forms import CreateEventForm, CreateTicketTierForm,CreateParkingTierForm,CreateTourismForm
 
 
 def index(request):
     return render(request, 'ticket_admin/index.html')
-
 
 def events(request):
     events = Event.objects.all()
@@ -73,6 +72,20 @@ def delete_ticket_tier(request, id):
     ticket_tier.delete()
     return redirect('ticket_admin:event_details', id=id)
 
+def tourist_spots(request):
+    tourist_spots= TouristSpot.objects.all()
+    return render(request, 'ticket_admin/tourist_spots.html', context={'tourist_spots': tourist_spots})
+
+def create_tourism(request):
+    form = CreateTourismForm()
+    if request.POST:
+        form = CreateTourismForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ticket_admin:tourist_spots')
+    return render(request, 'ticket_admin/create_tourist_spots.html', context={'form': form})
+
+
 def create_parking_tier(request, id):
     event = Event.objects.get(id=id)
     form = CreateParkingTierForm()
@@ -84,4 +97,15 @@ def create_parking_tier(request, id):
             form.save()
             return redirect('ticket_admin:event_details', id=id)
     return render(request, 'ticket_admin/create_ticket_tier.html', context={'form': form, 'event': event})
+
+
+def create_tourism(request):
+    form = CreateTourismForm()
+    if request.POST:
+        form = CreateTourismForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('ticket_admin:events')
+    return render(request, 'ticket_admin/create_tourist_spot.html', context={'form': form})
+
 
