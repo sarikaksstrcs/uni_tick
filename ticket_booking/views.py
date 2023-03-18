@@ -73,7 +73,7 @@ def send_email(request):
         'QR Code', 
         'Please scan the attached QR code.', 
         'sender@example.com', 
-        ['recipient@example.com']
+        ['sarika.ksstrcs@gmail.com']
     )
     email.attach('qr.png', image_data, 'image/png')
     email.send()
