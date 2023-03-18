@@ -11,6 +11,10 @@ PARKING_CHOICES = (
     ('4 Wheeler', '4 Wheeler'),
 )
 
+AMNETIES_CHOICES = (
+    ('rest room','rest room'),
+    ('feeding room','feeding room'),
+)
 
 class Event(models.Model):
     title = models.CharField(max_length=150)
@@ -51,7 +55,7 @@ class Ticket(models.Model):
     parking_needed = models.BooleanField(default=False)
     parking_tier = models.ForeignKey('ParkingTicketTier', on_delete=models.CASCADE, null=True, blank=True)
     is_inside = models.BooleanField(default=False)
-    qr_code = models.ImageField(upload_to="qr_codes",null=True,blank=True)
+    #qr_code = models.ImageField(upload_to="qr_codes",null=True,blank=True)
 
     def save(self,*args,**kwargs):
         qrcode_img = qrcode.make(self.email)
@@ -82,3 +86,16 @@ class ParkingTicketTier(models.Model):
 
     def __str__(self):
         return f'{self.title} ({self.capacity} slots remaining)'
+    
+
+########################################################
+# AMENITIES
+####################################################
+
+"""class Amenities(models.Model):
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    location =models.CharField(max_length=150)
+    type = models.CharField(max_length=150, choices=AMNETIES_CHOICES)
+    """
+

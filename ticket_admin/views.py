@@ -87,9 +87,9 @@ def tourist_spots_details(request, id):
 
 
 def create_tourist_spots(request):
-    form = CreateTourismForm()
+    form = CreateAmenityForm()
     if request.POST:
-        form = CreateTourismForm(request.POST)
+        form = CreateAmenityForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('ticket_admin:tourist_spots')
@@ -112,4 +112,6 @@ def create_parking_tier(request, id):
             return redirect('ticket_admin:event_details', id=id)
     return render(request, 'ticket_admin/create_ticket_tier.html', context={'form': form, 'event': event})
 
-
+######################################################
+# AMNETIES
+######################################################

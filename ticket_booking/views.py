@@ -79,3 +79,16 @@ def send_email(request):
     email.send()
     
     return HttpResponse('Email sent successfully.')
+
+#####################################
+# AMNETIES
+#####################################
+
+"""def amenities(request):
+    amnet = Amenities.objects.all()
+    
+    search_input = request.GET.get('search-area')
+    if search_input:
+        events = Amenities.objects.filter(Q(location__icontains=search_input))
+        return render(request, 'ticket_booking/amneties.html', {'amnet': amnet})
+    return render(request, 'ticket_booking/amneties.html',{'amnet':amnet})"""

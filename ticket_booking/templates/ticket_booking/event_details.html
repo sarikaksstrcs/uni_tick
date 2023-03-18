@@ -78,7 +78,7 @@
       </div>
       </div>
       <div class="flex justify-center">
-        <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" href="{% url 'ticket_booking:book_ticket' event.id %}">Book Now!</button>
+        <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href="{% url 'ticket_booking:book_ticket' event.id %}">Book Now!</a></button> </button>
         <button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg" href="{% url 'ticket_booking:home' %}">Back</button>
       </div>
     </div>

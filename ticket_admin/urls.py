@@ -24,4 +24,8 @@ urlpatterns = [
      #for Tourist Spots
     path('tourist_spots/', tourist_spots, name='tourist_spots'),
     path('tourist_spots/create/', tourist_spots, name='create_tourist_spots'),
+
+    #for Amenities
+    #path('amenities/create', create_amenities, name='create_amenities'),
+
 ]

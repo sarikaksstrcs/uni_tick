@@ -30,4 +30,7 @@ class CreateTourismForm(ModelForm):
         model = TouristSpot
         fields = '__all__'
 
+
+
+
         
