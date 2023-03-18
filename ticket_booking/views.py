@@ -5,13 +5,16 @@ from django.db.models import Q
 # Create your views here.
 
 def index(request):
+    return render(request, 'ticket_booking/index.html')
+
+def event(request):
     events = Event.objects.filter(booking_open =True)
     
     search_input = request.GET.get('search-area')
     if search_input:
         events = Event.objects.filter(Q(description__icontains=search_input))
-        return render(request, 'ticket_booking/index.html', {'events': events})
-    return render(request, 'ticket_booking/index.html',{'events':events})
+        return render(request, 'ticket_booking/event.html', {'events': events})
+    return render(request, 'ticket_booking/event.html',{'events':events})
 
 def event_details(request, id):
     event = Event.objects.get(id=id)
