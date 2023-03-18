@@ -17,7 +17,6 @@ def event_details(request, id):
     event = Event.objects.get(id=id)
     ticket_tiers = TicketTier.objects.filter(event=event, capacity__gt=0)
     parking_tiers = ParkingTicketTier.objects.filter(event=event)
-
     return render(request, 'ticket_booking/event_details.html', context={'event': event, 'ticket_tiers': ticket_tiers, 'parking_tiers': parking_tiers})
 
 
@@ -44,8 +43,3 @@ def book_ticket(request, id):
             form.save()
             return redirect('ticket_booking:home')
     return render(request, 'ticket_booking/book_ticket.html', context={'form': form, 'event': event})
-
-def event_search(request):
-    query = request.GET.get('q')
-    events = Event.objects.filter(Q(description__icontains=query))
-    return render(request, 'event_search.html', {'events': events})

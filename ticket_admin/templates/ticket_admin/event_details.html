@@ -1,22 +1,98 @@
 {% extends 'base.html' %} {% block head %}
 <title>Admin Home</title>
 {% endblock head %} {% block body %}
-<h1>{{ event.title }}</h1>
-<a href="{% url 'admin:events' %}">Back</a>
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="text-center mb-20">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">{{ event.title }}</h1>
+      <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-blue-500s">{{ event.description }}</p>
+      <div class="flex mt-6 justify-center">
+        <div class="w-16 h-1 rounded-full bg-indigo-500 inline-flex"></div>
+      </div>
+    </div>
+    <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
+      <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <!-- <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg> -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+            <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clip-rule="evenodd" />
+          </svg>
+          
+        </div>
+        <div class="flex-grow">
+          <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Date: {{ event.date }}</h2>
+          <!-- <p class="leading-relaxed text-base">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug VHS try-hard.</p> -->
+          <!-- <a class="mt-3 text-indigo-500 inline-flex items-center">Learn More
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a> -->
+        </div>
+      </div>
+      <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+          </svg>
+          
+        </div>
+        <div class="flex-grow">
+          <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Location: {{ event.location }}</h2>
+           <p class="leading-relaxed text-base"> {% if event.parking_available %}Parking Available<br>Capacity: {{ event.parking_max_capacity }}{% else %}No Parking Available{% endif %}</p>
+           <a class="mt-3 text-indigo-500 inline-flex items-center">View Map
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a> 
+        </div>
+      </div>
+      <div class="p-4 md:w-1/3 flex flex-col text-center items-center">
+        <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-5 flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+          </svg>
+          
+        </div>
+        <div class="flex-grow">
+          <h2 class="text-gray-900 text-lg title-font font-medium mb-3">Total Tickets: {{ event.total_tickets }}</h2>
+          <p class="leading-relaxed text-base">
+            Booking Status: {% if event.booking_open %}Open{% else %}Closed{% endif %}
+            {% for ticket_tier in ticket_tiers %}
+              <br>{{ ticket_tier.title }} - ₹{{ ticket_tier.price}} - {{ ticket_tier.capacity}}
+              {% endfor %}
+            </p>
+          
+          <a class="mt-3 text-indigo-500 inline-flex items-center"href="{% url 'admin:update_event' event.id %}"> Update
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a> 
+          <a class="mt-3 text-indigo-500 inline-flex items-center" href="{% url 'admin:delete_event' event.id %}">Delete
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a> 
+
+        </div>
+      </div>
+    </div>
+    <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" href="{% url 'admin:events' %}">Back</button>
+  </div>
+</section>
+
+<h1></h1>
+<a/a>
 <a href="{% url 'admin:update_event' event.id %}">Update</a>
 <a href="{% url 'admin:delete_event' event.id %}">Delete</a>
 <hr />
-<p>{{ event.decription }}</p>
+<p></p>
 <ul>
-  <li>Date: {{ event.date }}</li>
-  <li>Location: {{ event.location }}</li>
-  <li>Total Tickets: {{ event.total_tickets }}</li>
+  
   <li>
-    Parking Status: {% if event.parking_available %}Yes{% else %}No{% endif %}
-  </li>
-  <li>Parking Capacity: {{ event.parking_max_capacity }}</li>
-  <li>
-    Booking Status: {% if event.booking_open %}Open{% else %}Closed{% endif %}
+    
   </li>
 </ul>
 <h1>Ticket Tiers</h1>

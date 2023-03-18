@@ -47,7 +47,6 @@ class ParkingTicket(models.Model):
 class ParkingTicketTier(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     title = models.CharField(max_length=150, choices=PARKING_CHOICES, unique=True)
-    location = models.CharField(max_length=100,null=True)
     capacity = models.IntegerField()
 
     def __str__(self):

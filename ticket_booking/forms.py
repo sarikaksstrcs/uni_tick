@@ -19,8 +19,6 @@ class CreateTicketForm(ModelForm):
         'parking_tier'
     ]
 
-class SearchForm(forms.Form):
-    query = forms.CharField(max_length=200)
 
 
 
