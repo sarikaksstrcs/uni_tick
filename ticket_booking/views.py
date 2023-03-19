@@ -19,6 +19,7 @@ def event(request):
     if search_input:
         events = Event.objects.filter(Q(description__icontains=search_input))
         return render(request, 'ticket_booking/event.html', {'events': events})
+    print("events", events)
     return render(request, 'ticket_booking/event.html',{'events':events})
 
 def event_details(request, id):

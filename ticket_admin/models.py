@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, RegexValidator
 from io import BytesIO
 from django.core.files import File
-from PIL import Image,ImageDraw
+from PIL import Image, ImageDraw
 import qrcode
 
 
@@ -12,9 +12,10 @@ PARKING_CHOICES = (
 )
 
 AMNETIES_CHOICES = (
-    ('rest room','rest room'),
-    ('feeding room','feeding room'),
+    ('rest room', 'rest room'),
+    ('feeding room', 'feeding room'),
 )
+
 
 class Event(models.Model):
     title = models.CharField(max_length=150)
@@ -25,9 +26,8 @@ class Event(models.Model):
     parking_available = models.BooleanField(default=False)
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
-    image = models.ImageField(null=True,blank=True, upload_to="images/")
+    image = models.ImageField(null=True, blank=True, upload_to="images/")
 
-    
 
 class TouristSpot(models.Model):
     title = models.CharField(max_length=150)
@@ -36,7 +36,8 @@ class TouristSpot(models.Model):
     parking_available = models.BooleanField(default=False)
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
-    
+
+
 class TicketTier(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
@@ -46,20 +47,24 @@ class TicketTier(models.Model):
     def __str__(self):
         return f'{self.title}: ₹{self.price} ({self.capacity} seats remaining)'
 
+
 class Ticket(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    tier = models.ForeignKey(TicketTier,on_delete=models.CASCADE)
+    tier = models.ForeignKey(TicketTier, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
-    email = models.CharField(max_length=150, validators=[RegexValidator(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", 'Please enter a valid email')])
-    persons_count = models.IntegerField(default=1, validators=[MaxValueValidator(4)])
+    email = models.CharField(max_length=150, validators=[RegexValidator(
+        r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", 'Please enter a valid email')])
+    persons_count = models.IntegerField(
+        default=1, validators=[MaxValueValidator(4)])
     parking_needed = models.BooleanField(default=False)
-    parking_tier = models.ForeignKey('ParkingTicketTier', on_delete=models.CASCADE, null=True, blank=True)
+    parking_tier = models.ForeignKey(
+        'ParkingTicketTier', on_delete=models.CASCADE, null=True, blank=True)
     is_inside = models.BooleanField(default=False)
-    #qr_code = models.ImageField(upload_to="qr_codes",null=True,blank=True)
+    # qr_code = models.ImageField(upload_to="qr_codes",null=True,blank=True)
 
-    def save(self,*args,**kwargs):
+    def save(self, *args, **kwargs):
         qrcode_img = qrcode.make(self.email)
-        canvas = Image.new('RGB',(360,360),'white')
+        canvas = Image.new('RGB', (360, 360), 'white')
         draw = ImageDraw.Draw(canvas)
 
         canvas.paste(qrcode_img)
@@ -67,11 +72,11 @@ class Ticket(models.Model):
         fname = f'qr_code-{self.email}'+'.png'
         buffer = BytesIO()
 
-        canvas.save(buffer,'PNG')
-        self.qr_code.save(fname,File(buffer),save=False)
+        canvas.save(buffer, 'PNG')
+        self.qr_code.save(fname, File(buffer), save=False)
         canvas.close()
 
-        super().save(*args,**kwargs)
+        super().save(*args, **kwargs)
 
 
 class ParkingTicket(models.Model):
@@ -81,12 +86,13 @@ class ParkingTicket(models.Model):
 
 class ParkingTicketTier(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    title = models.CharField(max_length=150, choices=PARKING_CHOICES, unique=True)
+    title = models.CharField(
+        max_length=150, choices=PARKING_CHOICES, unique=True)
     capacity = models.IntegerField()
 
     def __str__(self):
         return f'{self.title} ({self.capacity} slots remaining)'
-    
+
 
 ########################################################
 # AMENITIES
@@ -98,4 +104,3 @@ class ParkingTicketTier(models.Model):
     location =models.CharField(max_length=150)
     type = models.CharField(max_length=150, choices=AMNETIES_CHOICES)
     """
-
