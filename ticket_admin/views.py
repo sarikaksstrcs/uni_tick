@@ -81,9 +81,9 @@ def tourist_spots(request):
 
 def tourist_spots_details(request, id):
     tourist_spots = TouristSpot.objects.get(id=id)
-    ticket_tiers = TicketTier.objects.filter(event=tourist_spots)
-    parking_tiers = ParkingTicketTier.objects.filter(event=tourist_spots)
-    return render(request, 'ticket_admin/tourist_spots_details.html', context={'tourist_spots': tourist_spots,'ticket_tiers': ticket_tiers, 'parking_tiers': parking_tiers})
+    #ticket_tiers = TicketTier.objects.filter(event=tourist_spots)
+    #parking_tiers = ParkingTicketTier.objects.filter(event=tourist_spots)
+    return render(request, 'ticket_admin/tourist_spots_details.html', context={'tourist_spots': tourist_spots})
 
 
 def create_tourist_spots(request):
@@ -94,6 +94,17 @@ def create_tourist_spots(request):
             form.save()
             return redirect('ticket_admin:tourist_spots')
     return render(request, 'ticket_admin/create_tourist_spots.html', context={'form': form})
+
+def update_tourist_spots(request, id):
+    tourist_spots = TouristSpot.objects.get(id=id)
+    form = CreateTourismForm(instance=event)
+    if request.POST:
+        form = CreateTourismForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('ticket_admin:tourist_spots')
+    return render(request, 'ticket_admin/create_event.html', context={'form': form})
+    
 
 #####################################################################################
 # PARKING
