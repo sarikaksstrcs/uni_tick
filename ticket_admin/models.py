@@ -10,7 +10,15 @@ PARKING_CHOICES = (
     ('2 Wheeler', '2 Wheeler'),
     ('4 Wheeler', '4 Wheeler'),
 )
-
+OPTIONS = (
+        ("SU", "sunday"),
+        ("M", "monday"),
+        ("T", "tuesday"),
+        ("W", "wednesday"),
+        ("TH", "thursday"),
+        ("F", "friday"),
+        ("SA", "saturday"),
+    )
 AMNETIES_CHOICES = (
     ('rest room', 'rest room'),
     ('feeding room', 'feeding room'),
@@ -33,6 +41,9 @@ class TouristSpot(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     location = models.CharField(max_length=150)
+    #open_time = models.TimeField(blank=True, null=True)
+    #closing_time = models.TimeField(blank=True, null=True)
+    #days_open = models.CharField(max_length=20, choices=OPTIONS, blank=True, null=True)
     parking_available = models.BooleanField(default=False)
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
@@ -62,9 +73,9 @@ class Ticket(models.Model):
     is_inside = models.BooleanField(default=False)
     # qr_code = models.ImageField(upload_to="qr_codes",null=True,blank=True)
 
-    def save(self, *args, **kwargs):
+    def save(self,*args,**kwargs):
         qrcode_img = qrcode.make(self.email)
-        canvas = Image.new('RGB', (360, 360), 'white')
+        canvas = Image.new('RGB',(360,360),'white')
         draw = ImageDraw.Draw(canvas)
 
         canvas.paste(qrcode_img)
@@ -72,11 +83,11 @@ class Ticket(models.Model):
         fname = f'qr_code-{self.email}'+'.png'
         buffer = BytesIO()
 
-        canvas.save(buffer, 'PNG')
-        self.qr_code.save(fname, File(buffer), save=False)
+        canvas.save(buffer,'PNG')
+        self.qr_code.save(fname,File(buffer),save=False)
         canvas.close()
 
-        super().save(*args, **kwargs)
+        super().save(*args,**kwargs)
 
 
 class ParkingTicket(models.Model):

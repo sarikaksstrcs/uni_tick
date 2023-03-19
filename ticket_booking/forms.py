@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from ticket_admin.models import Ticket
 from django import forms
 
+
 PARKING_CHOICES = (
     ('2 Wheeler', '2 Wheeler'),
     ('4 Wheeler', '4 Wheeler'),

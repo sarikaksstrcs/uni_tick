@@ -1,5 +1,5 @@
 from .views import index, events, create_event, delete_event, update_event, event_details, create_ticket_tier ,update_ticket_tier,delete_ticket_tier,create_parking_tier
-from .views import tourist_spots
+from .views import tourist_spots,create_tourist_spots,update_tourist_spots,tourist_spots_details
 from django.urls import path
 
 app_name = 'admin'
@@ -23,8 +23,10 @@ urlpatterns = [
 
      #for Tourist Spots
     path('tourist_spots/', tourist_spots, name='tourist_spots'),
-    path('tourist_spots/create/', tourist_spots, name='create_tourist_spots'),
-
+    path('tourist_spots/create/', create_tourist_spots, name='create_tourist_spots'),
+    path('tourist_spots/<int:id>/', tourist_spots_details, name='tourist_spots_details'),
+    path('tourist_spots/<int:id>/update_tourist_spots/',
+         update_tourist_spots, name='update_ticket_tier'),
     #for Amenities
     #path('amenities/create', create_amenities, name='create_amenities'),
 

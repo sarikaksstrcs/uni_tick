@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_tailwind",
     'ticket_admin',
-    'ticket_booking'
+    'ticket_booking',
+    'suit'
    
 ]
 

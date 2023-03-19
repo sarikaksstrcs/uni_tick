@@ -50,7 +50,27 @@ def book_ticket(request, id):
                 
             tier.save()
             form.save()
-            return redirect('ticket_booking:home')
+            qr = qrcode.QRCode(version=1, box_size=10, border=5)
+            qr.add_data(id)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            
+            # Create in-memory buffer for image
+            buffer = BytesIO()
+            img.save(buffer, format='PNG')
+            image_data = buffer.getvalue()
+            
+            # Create email message with QR code image attachment
+            email = EmailMessage(
+                'QR Code', 
+                'Please scan the attached QR code.', 
+                'navnet.ml@example.com', 
+                ['sarika.ks.official@gmail.com']
+            )
+            email.attach('qr.png', image_data, 'image/png')
+            email.send()
+            
+            return HttpResponse('Email sent successfully.')            
     return render(request, 'ticket_booking/book_ticket.html', context={'form': form, 'event': event})
 
 #########################################################################
