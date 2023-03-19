@@ -87,9 +87,9 @@ def tourist_spots_details(request, id):
 
 
 def create_tourist_spots(request):
-    form = CreateAmenityForm()
+    form = CreateTourismForm()
     if request.POST:
-        form = CreateAmenityForm(request.POST)
+        form = CreateTourismForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('ticket_admin:tourist_spots')
