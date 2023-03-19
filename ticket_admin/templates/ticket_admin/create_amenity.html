@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block head %} {% load tailwind_filters %}
+<title>Add Amenity</title>
+{% endblock head %} {% block body %}
+<header class="text-gray-600 body-font">
+  <div
+    class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center justify-center"
+  >
+    <a
+      class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0"
+    >
+    <svg class="h-10 w-10 text-indigo-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="6" cy="17" r="2" />  <circle cx="18" cy="17" r="2" />
+      <path d="M4 17h-2v-11a1 1 0 0 1 1 -1h14a5 7 0 0 1 5 7v5h-2m-4 0h-8" />
+      <polyline points="16 5 17.5 12 22 12" />  <line x1="2" y1="10" x2="17" y2="10" />  <line x1="7" y1="5" x2="7" y2="10" />  <line x1="12" y1="5" x2="12" y2="10" />
+    </svg>
+      <span class="ml-3 text-xl">Uni-Tick</span>
+    </a>
+  </div>
+</header>
+
+<section class="text-gray-600 body-font relative">
+  <div class="container px-5 mb-24 mx-auto">
+    <div class="flex justify-center">
+      <h1
+        class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"
+      >
+        Add Tourist Spot
+      </h1>
+    </div>
+    <div class="lg:w-1/2 md:w-2/3 mx-auto">
+      <form method="post">
+        {% csrf_token %} {{ form|crispy }}
+        <input
+          type="submit"
+          value="Save"
+          class="cursor-pointer bg-blue-400 hover:bg-blue-500 text-white rounded px-3 py-2 border-none"
+        />
+        <a
+          class="cursor-pointer bg-gray-400 hover:bg-gray-500 text-white rounded px-3 py-2"
+        >
+          Back
+        </a>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock body %}
