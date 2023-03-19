@@ -11,18 +11,19 @@ PARKING_CHOICES = (
     ('4 Wheeler', '4 Wheeler'),
 )
 OPTIONS = (
-        ("SU", "sunday"),
-        ("M", "monday"),
-        ("T", "tuesday"),
-        ("W", "wednesday"),
-        ("TH", "thursday"),
-        ("F", "friday"),
-        ("SA", "saturday"),
-    )
+    ("SU", "sunday"),
+    ("M", "monday"),
+    ("T", "tuesday"),
+    ("W", "wednesday"),
+    ("TH", "thursday"),
+    ("F", "friday"),
+    ("SA", "saturday"),
+)
 AMNETIES_CHOICES = (
     ('rest room', 'rest room'),
     ('feeding room', 'feeding room'),
 )
+
 
 
 class Event(models.Model):
@@ -41,13 +42,24 @@ class TouristSpot(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     location = models.CharField(max_length=150)
-    #open_time = models.TimeField(blank=True, null=True)
-    #closing_time = models.TimeField(blank=True, null=True)
-    #days_open = models.CharField(max_length=20, choices=OPTIONS, blank=True, null=True)
+    # open_time = models.TimeField(blank=True, null=True)
+    # closing_time = models.TimeField(blank=True, null=True)
+    # days_open = models.CharField(max_length=20, choices=OPTIONS, blank=True, null=True)
     parking_available = models.BooleanField(default=False)
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
 
+    is_book : models.BooleanField(default=False)
+    price : models.IntegerField(default=0,null=True,blank=True)
+
+class TouristTicket(models.Model):
+    site = models.ForeignKey(TouristSpot, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
+    email = models.CharField(max_length=150, validators=[RegexValidator(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", 'Please enter a valid email')])
+    persons_count = models.IntegerField(default=1, validators=[MaxValueValidator(4)])
+    parking_needed = models.BooleanField(default=False)
+    #parking_tier = models.ForeignKey('ParkingTicketTier', on_delete=models.CASCADE, null=True, blank=True)
+    is_inside = models.BooleanField(default=False)
 
 class TicketTier(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
@@ -115,3 +127,18 @@ class ParkingTicketTier(models.Model):
     location =models.CharField(max_length=150)
     type = models.CharField(max_length=150, choices=AMNETIES_CHOICES)
     """
+
+AMENITIES = (
+    ('Feeding Room', 'Feeding Room'),
+    ('Rest Room', 'Rest Room'),
+    ('Wash Room', 'Wash Room'),
+    ('Toilet', 'Toilet'),
+    ('Waste Bin', 'Waste Bin'),
+)
+
+
+class Amenity(models.Model):
+    type = models.CharField(max_length=150, choices=AMENITIES)
+    tourist_spot = models.ForeignKey(TouristSpot, on_delete=models.CASCADE)
+    location = models.CharField(max_length=150)
+    description = models.CharField(max_length=150, null=True, blank=True)

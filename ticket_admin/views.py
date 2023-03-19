@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import Event, TicketTier, ParkingTicketTier,TouristSpot
-from .forms import CreateEventForm, CreateTicketTierForm,CreateParkingTierForm,CreateTourismForm
+from .models import Event, TicketTier, ParkingTicketTier, TouristSpot, Amenity
+from .forms import (CreateEventForm, CreateTicketTierForm,
+                    CreateParkingTierForm, CreateTourismForm, CreateAmenityForm)
 
 
 def index(request):
     return render(request, 'ticket_admin/index.html')
+
 
 def events(request):
     events = Event.objects.all()
@@ -21,7 +23,7 @@ def event_details(request, id):
 def create_event(request):
     form = CreateEventForm()
     if request.POST:
-        form = CreateEventForm(request.POST,request.FILES)
+        form = CreateEventForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('ticket_admin:events')
@@ -57,6 +59,7 @@ def create_ticket_tier(request, id):
             return redirect('ticket_admin:event_details', id=id)
     return render(request, 'ticket_admin/create_ticket_tier.html', context={'form': form, 'event': event})
 
+
 def update_ticket_tier(request, id):
     ticket_tier = TicketTier.objects.get(id=id)
     form = CreateTicketTierForm(instance=ticket_tier)
@@ -67,6 +70,7 @@ def update_ticket_tier(request, id):
             return redirect('ticket_admin:event_details', id=id)
     return render(request, 'ticket_admin/create_event.html', context={'form': form})
 
+
 def delete_ticket_tier(request, id):
     ticket_tier = TicketTier.objects.get(id=id)
     ticket_tier.delete()
@@ -75,15 +79,19 @@ def delete_ticket_tier(request, id):
 #####################################################################################
 # TOURIST SPOTS
 #####################################################################################
+
+
 def tourist_spots(request):
-    tourist_spots= TouristSpot.objects.all()
-    return render(request, 'ticket_admin/tourist_spots.html', context={'tourist_spots': tourist_spots,})
+    tourist_spots = TouristSpot.objects.all()
+    return render(request, 'ticket_admin/tourist_spots.html', context={'tourist_spots': tourist_spots, })
+
 
 def tourist_spots_details(request, id):
     tourist_spots = TouristSpot.objects.get(id=id)
-    ticket_tiers = TicketTier.objects.filter(event=tourist_spots)
-    parking_tiers = ParkingTicketTier.objects.filter(event=tourist_spots)
-    return render(request, 'ticket_admin/tourist_spots_details.html', context={'tourist_spots': tourist_spots,'ticket_tiers': ticket_tiers, 'parking_tiers': parking_tiers})
+    amenities = Amenity.objects.filter(tourist_spot=tourist_spots)
+    # ticket_tiers = TicketTier.objects.filter(event=tourist_spots)
+    # parking_tiers = ParkingTicketTier.objects.filter(event=tourist_spots)
+    return render(request, 'ticket_admin/tourist_spots_details.html', context={'tourist_spots': tourist_spots, 'amenities': amenities})
 
 
 def create_tourist_spots(request):
@@ -115,3 +123,22 @@ def create_parking_tier(request, id):
 ######################################################
 # AMNETIES
 ######################################################
+
+
+def create_amenity(request, id):
+    tourist_spot = TouristSpot.objects.get(id=id)
+    form = CreateAmenityForm()
+    if request.POST:
+        form = CreateAmenityForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.tourist_spot = tourist_spot
+            form.save()
+            return redirect('ticket_admin:tourist_spots_details', id=id)
+    return render(request, 'ticket_admin/create_amenity.html', context={'form': form})
+
+
+def delete_amenity(request, tourist_spot_id, id):
+    amenity = Amenity.objects.get(id=id)
+    amenity.delete()
+    return redirect('ticket_admin:tourist_spots_details', id=tourist_spot_id)
