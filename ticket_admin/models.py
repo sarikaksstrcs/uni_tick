@@ -34,7 +34,9 @@ class Event(models.Model):
     parking_max_capacity = models.IntegerField(null=True, blank=True)
     booking_open = models.BooleanField(default=True)
     image = models.ImageField(null=True,blank=True, upload_to="images/")
-
+#####################################################################
+# TOURIST SPOTS
+#################################################################
     
 
 class TouristSpot(models.Model):
@@ -46,8 +48,18 @@ class TouristSpot(models.Model):
     #days_open = models.CharField(max_length=20, choices=OPTIONS, blank=True, null=True)
     parking_available = models.BooleanField(default=False)
     parking_max_capacity = models.IntegerField(null=True, blank=True)
-    booking_open = models.BooleanField(default=True)
-    
+    is_book : models.BooleanField(default=False)
+    price : models.IntegerField(default=0,null=True,blank=True)
+
+class TouristTicket(models.Model):
+    site = models.ForeignKey(TouristSpot, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
+    email = models.CharField(max_length=150, validators=[RegexValidator(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$", 'Please enter a valid email')])
+    persons_count = models.IntegerField(default=1, validators=[MaxValueValidator(4)])
+    parking_needed = models.BooleanField(default=False)
+    #parking_tier = models.ForeignKey('ParkingTicketTier', on_delete=models.CASCADE, null=True, blank=True)
+    is_inside = models.BooleanField(default=False)
+
 class TicketTier(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
